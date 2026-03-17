@@ -852,7 +852,7 @@ size_t spvc_compiler_get_num_required_extensions(spvc_compiler compiler)
 	if (compiler->backend != SPVC_BACKEND_GLSL)
 	{
 		compiler->context->report_error("Enabled extensions can only be queried on GLSL backend.");
-		return SPVC_ERROR_INVALID_ARGUMENT;
+		return 0;
 	}
 
 	return static_cast<CompilerGLSL *>(compiler->compiler.get())->get_required_extensions().size();
@@ -907,7 +907,7 @@ spvc_bool spvc_compiler_variable_is_depth_or_compare(spvc_compiler compiler, spv
 	if (compiler->backend == SPVC_BACKEND_NONE)
 	{
 		compiler->context->report_error("Cross-compilation related option used on NONE backend which only supports reflection.");
-		return SPVC_ERROR_INVALID_ARGUMENT;
+		return SPVC_FALSE;
 	}
 
 	return static_cast<CompilerGLSL *>(compiler->compiler.get())->variable_is_depth_or_compare(id) ? SPVC_TRUE : SPVC_FALSE;
