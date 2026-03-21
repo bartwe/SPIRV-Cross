@@ -15709,7 +15709,7 @@ void CompilerGLSL::emit_instruction(const Instruction &instruction)
 				tensor_operands = "gl_TensorOperandsNonTemporalARM";
 			else if (ops[4] == TensorOperandsOutOfBoundsValueARMMask)
 				tensor_operands = "gl_TensorOperandsOutOfBoundsValueARM";
-			else if (ops[4] == (TensorOperandsNontemporalARMMask | TensorOperandsOutOfBoundsValueARMMask))
+				else if (ops[4] == uint32_t(TensorOperandsNontemporalARMMask | TensorOperandsOutOfBoundsValueARMMask))
 				tensor_operands = "gl_TensorOperandsNonTemporalARM | gl_TensorOperandsOutOfBoundsValueARM";
 			else
 				SPIRV_CROSS_THROW("Invalid tensorOperands for tensorReadARM.");
@@ -20264,7 +20264,7 @@ std::string CompilerGLSL::to_pretty_expression_if_int_constant(
 
 uint32_t CompilerGLSL::get_fp_fast_math_flags_for_op(uint32_t result_type, uint32_t id) const
 {
-	uint32_t fp_flags = ~0;
+		uint32_t fp_flags = ~uint32_t(0);
 
 	if (!type_is_floating_point(get<SPIRType>(result_type)))
 		return fp_flags;
@@ -20333,8 +20333,8 @@ uint32_t CompilerGLSL::get_fp_fast_math_flags_for_op(uint32_t result_type, uint3
 
 bool CompilerGLSL::has_legacy_nocontract(uint32_t result_type, uint32_t id) const
 {
-	const auto fp_flags = FPFastMathModeAllowContractMask |
-	                      FPFastMathModeAllowTransformMask |
-	                      FPFastMathModeAllowReassocMask;
+		const auto fp_flags = uint32_t(FPFastMathModeAllowContractMask |
+		                               FPFastMathModeAllowTransformMask |
+		                               FPFastMathModeAllowReassocMask);
 	return (get_fp_fast_math_flags_for_op(result_type, id) & fp_flags) != fp_flags;
 }
